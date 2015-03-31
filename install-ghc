@@ -77,6 +77,10 @@ mkdir_p(cache_dir)
 
 #===============================================================================
 
+os.environ["PATH"] = os.path.join(prefix, "bin") + ":" + os.environ["PATH"]
+
+#===============================================================================
+
 if not os.environ.has_key("INSTALL_GHC"):
 
     # Make a fake chroot jail, and invoke the script recursively.
