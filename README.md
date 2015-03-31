@@ -17,7 +17,7 @@ ghc-7.8.4-src.tar.bz2
 Make sure you have the following packages in your path.
 
 * Basic development tools: `gcc`, `binutils`, etc.
-* Python 2.7
+* Python 2.7 (or compatible version)
 * `fakechroot`
 
 
