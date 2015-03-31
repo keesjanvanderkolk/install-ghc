@@ -4,6 +4,16 @@ Install GHC from source, using a binary distribution to bootstrap from, as non-r
 
 ## Step 1.
 
+Download the Haskell platform binary archive, and the GHC sources. In our example, we use the following files.
+
+```
+haskell-platform-2014.2.0.0-unknown-linux-x86_64.tar.gz 
+ghc-7.8.4-src.tar.bz2
+```
+
+
+## Step 2.
+
 Make sure you have the following packages in your path.
 
 * Basic development tools: `gcc`, `binutils`, etc.
@@ -11,7 +21,7 @@ Make sure you have the following packages in your path.
 * `fakechroot`
 
 
-## Step 2.
+## Step 3.
 
 Before starting, you may wish to remove any pre-existing Haskell packages.
 
@@ -21,7 +31,7 @@ rm ${HOME}/.cabal -rf
 ```
 
 
-## Step 3.
+## Step 4.
 
 An example, installing into `${HOME}/install`.
 
