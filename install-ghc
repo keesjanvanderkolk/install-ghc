@@ -104,16 +104,19 @@ if not os.environ.has_key("INSTALL_GHC"):
     chroot_dir = do("make-chroot:1", make_chroot)
 
     if not os.path.exists(os.path.join(chroot_dir, "home")):
-        subprocess.call(["ln", "-s", "/home", os.path.join(chroot_dir, "home")])
+        subprocess.check_call(["ln", "-s", "/home", os.path.join(chroot_dir, "home")])
     if not os.path.exists(os.path.join(chroot_dir, "etc")):
-        subprocess.call(["ln", "-s", "/etc", os.path.join(chroot_dir, "etc")])
+        subprocess.check_call(["ln", "-s", "/etc", os.path.join(chroot_dir, "etc")])
 
     mkdir_p(os.path.join(chroot_dir, "tmp"))
 
     # Set a flag so we know we are inside the fake chroot jail.
     #
     os.environ["INSTALL_GHC"] = "1"
-    subprocess.call(["fakechroot", "chroot", chroot_dir, os.path.abspath(sys.argv[0])] + sys.argv[1:])
+    subprocess.check_call(["fakechroot", "chroot", chroot_dir, os.path.abspath(sys.argv[0])] + sys.argv[1:])
+
+    print >>sys.stderr, "Cleaning up..."
+    subprocess.check_call(["rm", "-rf", os.path.join(cache_dir, "ghc-chroot")])
 
     sys.exit(0)
 
@@ -133,7 +136,7 @@ for (o,a) in optlist:
         ghc_archive = os.path.abspath(a)
 
 def unpack_haskell_platform():
-    subprocess.call(["tar", "axvf", haskell_platform_archive, "-C", "/"])
+    subprocess.check_call(["tar", "axvf", haskell_platform_archive, "-C", "/"])
 
 do("unpack_haskell_platform:1", unpack_haskell_platform)
 
@@ -152,22 +155,22 @@ cwd = os.getcwd()
 os.chdir(ghc_src_path)
 
 def boot():
-    subprocess.call(["perl", "boot"])
+    subprocess.check_call(["perl", "boot"])
 
 do("boot:1", boot)
 
 def configure_ghc():
-    subprocess.call(["./configure", "--prefix="+prefix])
+    subprocess.check_call(["./configure", "--prefix="+prefix])
 
 do("configure:1", configure_ghc)
 
 def make():
-    subprocess.call(["make"])
+    subprocess.check_call(["make"])
 
 do("make:1", make)
 
 def install():
-    subprocess.call(["make", "install"])
+    subprocess.check_call(["make", "install"])
 
 do("install:1", install)
 
