@@ -94,6 +94,7 @@ if not os.environ.has_key("INSTALL_GHC"):
     def make_chroot():
         chroot_dir = os.path.join(cache_dir, "ghc-chroot")
         mkdir_p(chroot_dir)
+        # Note: these calls cannot fail with an exception; we copy as much as we can.
         subprocess.call(["cp", "-av", "/usr", os.path.join(chroot_dir, "usr")])
         subprocess.call(["cp", "-av", "/bin", os.path.join(chroot_dir, "bin")])
         subprocess.call(["cp", "-av", "/lib", os.path.join(chroot_dir, "lib")])
