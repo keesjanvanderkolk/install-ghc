@@ -1,0 +1,111 @@
+#!/usr/bin/env python
+
+# See README.md for usage.
+
+import os
+import sys
+import getopt
+import errno
+import cPickle
+import glob
+import subprocess
+
+#===============================================================================
+
+# Some utility routines that help to execute this code incrementally. (Invoking
+# the script after an error will only re-execute the step in which the error
+# occurred).
+
+key_prefix = "haste-compiler:"
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+def read_value(path):
+    fp = file(path, "r")
+    value = cPickle.Unpickler(fp).load()
+    fp.close()
+    return value
+
+def write_value(path, value):
+    fp = file(path, "w")
+    cPickle.Pickler(fp).dump(value)
+    fp.close()
+
+def do(key, f):
+    key_path = os.path.join(cache_dir, key_prefix+key+".memo")
+    if os.path.exists(key_path):
+        return read_value(key_path)
+
+    v = f()
+
+    with open(key_path, "wb") as fp:
+        write_value(key_path, v)
+
+    return v
+
+def execute(cmd):
+    p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+    if p.returncode != 0:
+        raise Exception("Process exited with status: "+str(p.returncode))
+    return output, err
+
+#===============================================================================
+
+optlist, args = getopt.getopt(sys.argv[1:], '', ['prefix=', 'tmpdir=', 'haste-compiler-archive='])
+
+prefix = None
+tmpdir = os.environ.get("TMP", "/tmp")
+
+for (o,a) in optlist:
+    if o == "--prefix":
+        prefix = a
+    if o == "--tmpdir":
+        tmpdir = a
+
+if prefix is None:
+    raise Exception("No --prefix given.")
+
+mkdir_p(prefix)
+
+cache_dir = os.path.join(prefix, "@install-cache")
+mkdir_p(cache_dir)
+
+#===============================================================================
+
+os.environ["PATH"] = os.path.join(prefix, "bin") + ":" + os.environ["PATH"]
+
+#===============================================================================
+
+archive = None
+
+for (o,a) in optlist:
+    if o == "--haste-compiler-archive":
+        archive = os.path.abspath(a)
+
+def unpack_archive():
+    root_name = execute(["tar", "axvf", archive, "-C", cache_dir])[0].split("\n")[0].strip("/").split("/")[0]
+    return os.path.join(cache_dir, root_name)
+
+src_path = do("unpack_archive", unpack_archive)
+
+cwd = os.getcwd()
+os.chdir(src_path)
+
+def setup():
+    subprocess.check_call(["cabal", "install"])
+
+do("setup:1", setup)
+
+def boot():
+    subprocess.check_call(["haste-boot", "--force", "--local"])
+
+do("boot:1", boot)
+
