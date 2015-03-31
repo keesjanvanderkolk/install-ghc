@@ -40,3 +40,9 @@ cd install-ghc
 ./install-ghc --prefix=${HOME}/install --haskell-platform-archive ${ARCHIVES}/haskell-platform-2014.2.0.0-unknown-linux-x86_64.tar.gz --ghc-archive ${ARCHIVES}/ghc-7.8.4-src.tar.bz2
 ```
 
+
+## Notes
+
+The script uses a fake chroot environment to install the Haskell platform (from which a final verion of GHC will be built). This chroot environment is populated with files from the `/usr` folder, and as such it can become quite large.
+
+Also, the script assumes that the target prefix will reside inside the `/home` tree. If this is not the case, then it will be necessary to edit the script.
