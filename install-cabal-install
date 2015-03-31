@@ -100,7 +100,7 @@ cwd = os.getcwd()
 os.chdir(src_path)
 
 def install():
-    subprocess.call(["./bootstrap.sh"])
+    subprocess.check_call(["./bootstrap.sh"])
 
 do("install:1", install)
 

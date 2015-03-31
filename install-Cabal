@@ -100,22 +100,22 @@ cwd = os.getcwd()
 os.chdir(src_path)
 
 def setup():
-    subprocess.call(["ghc", "-threaded", "--make", "Setup"])
+    subprocess.check_call(["ghc", "-threaded", "--make", "Setup"])
 
 do("setup:1", setup)
 
 def configure():
-    subprocess.call(["./Setup", "configure", "--user", "--prefix="+prefix])
+    subprocess.check_call(["./Setup", "configure", "--user", "--prefix="+prefix])
 
 do("configure:1", configure)
 
 def make():
-    subprocess.call(["./Setup", "build"])
+    subprocess.check_call(["./Setup", "build"])
 
 do("make:1", make)
 
 def install():
-    subprocess.call(["./Setup", "install"])
+    subprocess.check_call(["./Setup", "install"])
 
 do("install:1", install)
 
