@@ -46,3 +46,16 @@ cd install-ghc
 The script uses a fake chroot environment to install the Haskell platform (from which a final verion of GHC will be built). This chroot environment is populated with files from the `/usr` folder, and as such it can become quite large.
 
 Also, the script assumes that the target prefix will reside inside the `/home` tree. If this is not the case, then it will be necessary to edit the script.
+
+
+## Step 5 (optional).
+
+Install Cabal (the library and the tool).
+
+```
+wget "https://www.haskell.org/cabal/release/cabal-1.22.2.0/Cabal-1.22.2.0.tar.gz"
+./install-Cabal --prefix=${HOME}/install-h --Cabal-archive Cabal-1.22.2.0.tar.gz
+
+wget "https://www.haskell.org/cabal/release/cabal-install-1.22.2.0/cabal-install-1.22.2.0.tar.gz"
+./install-cabal-install --prefix=${HOME}/install-h --cabal-install-archive cabal-install-1.22.2.0.tar.gz 
+```
