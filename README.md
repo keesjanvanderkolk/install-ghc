@@ -13,17 +13,17 @@ Make sure you have the following packages in your path.
 
 ## Step 2.
 
-Before starting, you may wish to remove any pre-existing packages.
+Before starting, you may wish to remove any pre-existing Haskell packages.
 
 ```
-rm ${HOME}/.ghc
-rm ${HOME}/.cabal
+rm ${HOME}/.ghc -rf
+rm ${HOME}/.cabal -rf
 ```
 
 
 ## Step 3.
 
-An example while `prefix` is chosen as `${HOME}/install`.
+An example, installing into `${HOME}/install`.
 
 ```
 cd install-ghc
