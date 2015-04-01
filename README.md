@@ -1,5 +1,7 @@
 # install-ghc
-Install GHC from source, using a binary distribution to bootstrap from, as non-root user.
+Install GHC from source, using a binary distribution to bootstrap from, as non-root user, on Linux.
+
+See the `other` directory for more tools.
 
 
 ## Step 1.
