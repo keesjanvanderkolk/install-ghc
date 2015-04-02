@@ -39,8 +39,10 @@ An example, installing into `${HOME}/install`.
 
 ```
 cd install-ghc
-./install-ghc --prefix=${HOME}/install --haskell-platform-archive ${ARCHIVES}/haskell-platform-2014.2.0.0-unknown-linux-x86_64.tar.gz --ghc-archive ${ARCHIVES}/ghc-7.8.4-src.tar.bz2
+./install-ghc --prefix ${HOME}/install --haskell-platform-archive ${ARCHIVES}/haskell-platform-2014.2.0.0-unknown-linux-x86_64.tar.gz --ghc-archive ${ARCHIVES}/ghc-7.8.4-src.tar.bz2
 ```
+
+Warning: use *absolute* paths for the archives.
 
 
 ## Notes
@@ -56,8 +58,8 @@ Install Cabal (the library and the tool).
 
 ```
 wget "https://www.haskell.org/cabal/release/cabal-1.22.2.0/Cabal-1.22.2.0.tar.gz"
-./install-Cabal --prefix=${HOME}/install-h --Cabal-archive Cabal-1.22.2.0.tar.gz
+./install-Cabal --prefix=${HOME}/install --Cabal-archive Cabal-1.22.2.0.tar.gz
 
 wget "https://www.haskell.org/cabal/release/cabal-install-1.22.2.0/cabal-install-1.22.2.0.tar.gz"
-./install-cabal-install --prefix=${HOME}/install-h --cabal-install-archive cabal-install-1.22.2.0.tar.gz 
+./install-cabal-install --prefix=${HOME}/install --cabal-install-archive cabal-install-1.22.2.0.tar.gz 
 ```
